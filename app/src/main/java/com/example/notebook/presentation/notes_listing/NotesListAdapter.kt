@@ -11,12 +11,13 @@ import com.example.notebook.databinding.NotesItemBinding
 import com.example.notebook.domain.enum.MoodStates
 import com.example.notebook.domain.model.NotesItemEntity
 import com.example.notebook.presentation.notes_detail.NotesDetailActivity
+import com.example.notebook.utils.AppHelper
 import dagger.hilt.android.qualifiers.ActivityContext
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class NotesListAdapter @Inject constructor(@ActivityContext val context: Context) :
+class NotesListAdapter @Inject constructor(@ActivityContext private val context: Context) :
     RecyclerView.Adapter<NotesListAdapter.NotesViewHolder>() {
     private var notesList: List<NotesItemEntity> = arrayListOf()
     class NotesViewHolder(itemView: View, val binding: NotesItemBinding) : RecyclerView.ViewHolder(itemView) {
@@ -36,8 +37,9 @@ class NotesListAdapter @Inject constructor(@ActivityContext val context: Context
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
         val notesItemEntity = notesList[position]
         holder.binding.tvNotesContent.text = notesItemEntity.text
-        holder.binding.tvDate.text = getFormattedDate(Date(notesItemEntity.date))
+        holder.binding.tvDate.text = AppHelper.getFormattedDate(notesItemEntity.date)
         holder.binding.tvMoodState.apply {
+
             text = notesItemEntity.mood
             setTextColor(getMoodStateColor(notesItemEntity.mood))
         }
@@ -49,18 +51,13 @@ class NotesListAdapter @Inject constructor(@ActivityContext val context: Context
         }
     }
 
-    fun getMoodStateColor(mood: String): Int {
+    private fun getMoodStateColor(mood: String): Int {
         return when (mood) {
             MoodStates.GoodDay.state -> context.getColor(R.color.green)
             MoodStates.BadDay.state -> context.getColor(R.color.red)
             MoodStates.NormalDay.state -> context.getColor(R.color.yellow)
             else -> context.getColor(R.color.green)
         }
-    }
-
-    fun getFormattedDate(date: Date): String? {
-        val simpleDateTimeFormat = SimpleDateFormat("dd MMM yyyy", Locale.US)
-        return simpleDateTimeFormat.format(date)
     }
 
     override fun getItemCount(): Int {

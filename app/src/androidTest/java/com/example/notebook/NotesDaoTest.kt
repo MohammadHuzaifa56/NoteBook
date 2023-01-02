@@ -13,6 +13,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.Calendar
 
 @RunWith(AndroidJUnit4::class)
 class NotesDaoTest {
@@ -33,12 +34,22 @@ class NotesDaoTest {
     }
 
     @Test
-    fun insertAndGetNote_Test() = runBlocking{
-        val noteItem = NotesItemEntity(1,"This is test Note",1672146484717,"GOOD")
+    fun insertAndGetNote_Test() = runBlocking {
+        val noteItem = NotesItemEntity(1, "This is test Note", Calendar.getInstance().time, "GOOD")
         notesDao.insertNoteEntity(noteItem)
 
         val notesList = notesDao.getNoteEntity()
         Assert.assertEquals(1, notesList.size)
         Assert.assertEquals("This is test Note", notesList[0].text)
+    }
+
+    @Test
+    fun notesTest_WrongContent() = runBlocking {
+        val noteItem = NotesItemEntity(1, "This is test Note", Calendar.getInstance().time, "GOOD")
+        notesDao.insertNoteEntity(noteItem)
+
+        val notesList = notesDao.getNoteEntity()
+        Assert.assertEquals(1, notesList.size)
+        Assert.assertNotEquals("This is note a test Note", notesList[0].text)
     }
 }

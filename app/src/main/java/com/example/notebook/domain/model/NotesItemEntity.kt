@@ -1,6 +1,5 @@
 package com.example.notebook.domain.model
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
@@ -11,7 +10,8 @@ data class NotesItemEntity(
     val id: Int? = null,
 
     val text: String,
-    val date: Long,
 
-    val mood:String
+    val date: Date,
+
+    val mood: String
 )

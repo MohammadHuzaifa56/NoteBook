@@ -34,7 +34,7 @@ class AddNotesActivity : AppCompatActivity() {
         binding.btnSave.setOnClickListener {
             val notesItemEntity = NotesItemEntity(
                 text = binding.etNotes.text.toString(),
-                date = System.currentTimeMillis(),
+                date = Calendar.getInstance().time,
                 mood = mood
             )
             CoroutineScope(Dispatchers.Main).launch {
