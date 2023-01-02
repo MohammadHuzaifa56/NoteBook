@@ -17,7 +17,7 @@ interface NotesDao{
     )
 
     @Query("SELECT * FROM notesitementity")
-    suspend fun getNoteEntity(): List<NotesItemEntity>
+    fun getNoteEntity(): Flow<List<NotesItemEntity>>
 
     @Query("SELECT * FROM notesitementity WHERE :noteId == id")
     suspend fun getNotesDetail(noteId: Int): NotesItemEntity

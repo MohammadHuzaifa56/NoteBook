@@ -22,9 +22,7 @@ class NotesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getNotesList(): Flow<List<NotesItemEntity>> {
-        return flow {
-            emit(dao.getNoteEntity())
-        }
+        return dao.getNoteEntity()
     }
 
     override suspend fun getNotesDetail(id: Int): Flow<NotesItemEntity> {
