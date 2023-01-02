@@ -39,6 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/rbGood"
+                    android:checked="true"
                     android:text="Good"
                     android:textColor="@color/green"
                     android:textSize="18sp"/>
@@ -79,6 +80,7 @@
                 android:layout_height="wrap_content"
                 android:text="SAVE"
                 android:id="@+id/btnSave"
+                android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etNotes"
                 android:textColor="@color/white"

@@ -14,8 +14,6 @@ import javax.inject.Inject
 class NotesListViewModel @Inject constructor(
     val notesRepository: NotesRepository
 ): ViewModel() {
-    var notesData: LiveData<Any> = MutableLiveData()
-
     fun getNotesList(): Flow<Resource> = flow {
         emit(Resource.Loading)
         try {
