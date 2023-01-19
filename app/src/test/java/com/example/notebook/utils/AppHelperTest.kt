@@ -10,20 +10,18 @@ class AppHelperTest{
     @Test
     fun getFromattedDate_Test_Correct() {
         val calendar = Calendar.getInstance()
-        calendar[Calendar.YEAR] = 2023
-        calendar[Calendar.MONTH] = Calendar.JANUARY
-        calendar[Calendar.DAY_OF_MONTH] = 2
+        calendar[Calendar.HOUR] = 10
+        calendar[Calendar.MINUTE] = 50
         val formattedDate: String? = AppHelper.getFormattedDate(calendar.time)
-        Assert.assertEquals("02 Jan 2023", formattedDate)
+        Assert.assertEquals("10:50", formattedDate)
     }
 
     @Test
     fun getFromattedDate_Test_Wrong() {
         val calendar = Calendar.getInstance()
-        calendar[Calendar.YEAR] = 2023
-        calendar[Calendar.MONTH] = Calendar.JANUARY
-        calendar[Calendar.DAY_OF_MONTH] = 2
+        calendar[Calendar.HOUR] = 10
+        calendar[Calendar.MINUTE] = 50
         val formattedDate: String? = AppHelper.getFormattedDate(calendar.time)
-        Assert.assertNotEquals("Jan 02 2023", formattedDate)
+        Assert.assertNotEquals("22:50", formattedDate)
     }
 }

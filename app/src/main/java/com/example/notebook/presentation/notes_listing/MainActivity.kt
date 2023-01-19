@@ -18,7 +18,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     @Inject
-    lateinit var notesListAdapter: NotesListAdapter
+    lateinit var notesListAdapter: GroupedNotesListAdapter
     private val notesViewModel by viewModels<NotesListViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

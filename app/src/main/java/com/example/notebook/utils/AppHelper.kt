@@ -6,7 +6,7 @@ import java.util.*
 class AppHelper {
     companion object {
         fun getFormattedDate(date: Date): String? {
-            val simpleDateTimeFormat = SimpleDateFormat("dd MMM yyyy", Locale.US)
+            val simpleDateTimeFormat = SimpleDateFormat("HH:mm", Locale.US)
             return simpleDateTimeFormat.format(date)
         }
     }
