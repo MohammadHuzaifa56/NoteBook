@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.util.*
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 @HiltViewModel
 class NotesListViewModel @Inject constructor(
@@ -29,7 +30,9 @@ class NotesListViewModel @Inject constructor(
                     calendar.getDisplayName(Calendar.MONTH,Calendar.LONG, Locale.getDefault())
                 }.mapValues {
                     val (month, dateList) = it
+                    var avgMood = 0
                     val dateGroup = dateList.groupBy {
+                        avgMood += it.mood
                         calendar.time = it.date
                         calendar.get(Calendar.DAY_OF_MONTH)
                     }.map { (day, listItems) ->
@@ -37,10 +40,10 @@ class NotesListViewModel @Inject constructor(
                         val dayOfWeek = calendar.getDisplayName(Calendar.DAY_OF_WEEK,Calendar.LONG,Locale.getDefault())
                         DateGroup(dayOfWeek,day,listItems)
                     }
-                    MonthGroup(month = month, dateList.size, dateGroup)
+                    MonthGroup(month = month,avgMood.div(dateList.size.toFloat()).roundToInt(), dateList.size, dateGroup)
                 }
                 val groupedNotesItems = groupedItems.map { (month, items)->
-                    MonthGroup(items.month,items.totalEntries,items.dateGroups)
+                    MonthGroup(items.month,items.avgMood, items.totalEntries,items.dateGroups)
                 }
                 emit(Resource.Success(groupedNotesItems))
             }

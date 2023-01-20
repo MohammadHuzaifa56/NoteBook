@@ -13,5 +13,5 @@ data class NotesItemEntity(
 
     val date: Date,
 
-    val mood: String
+    val mood: Int
 )

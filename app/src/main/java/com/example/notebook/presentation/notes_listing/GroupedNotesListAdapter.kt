@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notebook.R
 import com.example.notebook.databinding.GroupedNotesItemsBinding
@@ -36,11 +37,20 @@ class GroupedNotesListAdapter @Inject constructor(@ActivityContext private val c
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
         val notesItemEntity = notesList[position]
         holder.binding.tvMonthName.text = notesItemEntity.month
+        holder.binding.layMonthHeading.setBackgroundColor(getAvgMoodColor(notesItemEntity.avgMood))
         holder.binding.tvTotalEntries.text = "${notesItemEntity.totalEntries} Entries"
         val dateItemsAdapter = DateItemsAdapter(context,notesItemEntity.dateGroups)
         holder.binding.recDates.adapter = dateItemsAdapter
     }
 
+    private fun getAvgMoodColor(mood: Int): Int {
+        return when (mood) {
+            MoodStates.GoodDay.state -> context.getColor(R.color.green)
+            MoodStates.BadDay.state -> context.getColor(R.color.red)
+            MoodStates.NormalDay.state -> context.getColor(R.color.yellow)
+            else -> context.getColor(R.color.green)
+        }
+    }
     override fun getItemCount(): Int {
         return notesList.size
     }

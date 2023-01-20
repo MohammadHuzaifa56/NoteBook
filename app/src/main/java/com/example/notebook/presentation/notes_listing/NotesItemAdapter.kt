@@ -32,9 +32,20 @@ class NotesItemAdapter constructor(private val context: Context, private val not
         holder.binding.tvNotesContent.text = notesItemEntity.text
         holder.binding.tvDate.text = AppHelper.getFormattedDate(notesItemEntity.date)
         holder.binding.tvMoodState.apply {
-
-            text = notesItemEntity.mood
-            setTextColor(getMoodStateColor(notesItemEntity.mood))
+            when (notesItemEntity.mood) {
+                MoodStates.GoodDay.state -> {
+                    setTextColor(context.getColor(R.color.green))
+                    text = "GOOD"
+                }
+                MoodStates.BadDay.state -> {
+                    text = "BAD"
+                    setTextColor(context.getColor(R.color.red))
+                }
+                MoodStates.NormalDay.state -> {
+                    text = "NORMAl"
+                    setTextColor(context.getColor(R.color.yellow))
+                }
+            }
         }
 
         holder.itemView.setOnClickListener{
@@ -44,14 +55,6 @@ class NotesItemAdapter constructor(private val context: Context, private val not
         }
     }
 
-    private fun getMoodStateColor(mood: String): Int {
-        return when (mood) {
-            MoodStates.GoodDay.state -> context.getColor(R.color.green)
-            MoodStates.BadDay.state -> context.getColor(R.color.red)
-            MoodStates.NormalDay.state -> context.getColor(R.color.yellow)
-            else -> context.getColor(R.color.green)
-        }
-    }
 
     override fun getItemCount(): Int {
         return notesItemList.size

@@ -15,7 +15,7 @@ import java.util.Calendar
 class AddNotesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddNotesBinding
     private val addNotesViewModel by viewModels<AddNotesViewModel>()
-    private var mood: String = "GOOD"
+    private var mood: Int = 3
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddNotesBinding.inflate(layoutInflater)
@@ -23,11 +23,11 @@ class AddNotesActivity : AppCompatActivity() {
 
         binding.rgMood.setOnCheckedChangeListener { group, checkedId ->
             mood = if (checkedId == binding.rbGood.id) {
-                "GOOD"
+                3
             } else if (checkedId == binding.rbBad.id) {
-                "BAD"
+                1
             } else {
-                "NORMAL"
+                2
             }
         }
 

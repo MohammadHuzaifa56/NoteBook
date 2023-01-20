@@ -25,12 +25,22 @@ class NotesDetailActivity : AppCompatActivity() {
 
         lifecycleScope.launchWhenStarted {
             notesDetailViewModel.getNotesDetail(notesId).collect {
-                binding.tvMood.text = it.mood
                 binding.tvNotesContent.text = it.text
-                when (it.mood) {
-                    MoodStates.GoodDay.state -> binding.tvMood.setTextColor(getColor(R.color.green))
-                    MoodStates.BadDay.state -> binding.tvMood.setTextColor(getColor(R.color.red))
-                    MoodStates.NormalDay.state -> binding.tvMood.setTextColor(getColor(R.color.yellow))
+                binding.tvMood.apply {
+                    when (it.mood) {
+                        MoodStates.GoodDay.state -> {
+                            setTextColor(getColor(R.color.green))
+                            text = "GOOD"
+                        }
+                        MoodStates.BadDay.state -> {
+                            text = "BAD"
+                            setTextColor(getColor(R.color.red))
+                        }
+                        MoodStates.NormalDay.state -> {
+                            text = "NORMAl"
+                            setTextColor(getColor(R.color.yellow))
+                        }
+                    }
                 }
             }
         }
