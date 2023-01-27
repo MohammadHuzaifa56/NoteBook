@@ -7,6 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.notebook.data.local.NotesDao
 import com.example.notebook.data.local.NotesDatabase
 import com.example.notebook.domain.model.NotesItemEntity
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert
@@ -35,21 +36,27 @@ class NotesDaoTest {
 
     @Test
     fun insertAndGetNote_Test() = runBlocking {
-        val noteItem = NotesItemEntity(1, "This is test Note", Calendar.getInstance().time, "GOOD")
+        val noteItem = NotesItemEntity(1, "This is test Note", Calendar.getInstance().time, 3)
         notesDao.insertNoteEntity(noteItem)
 
-        val notesList = notesDao.getNoteEntity()
-        Assert.assertEquals(1, notesList.size)
-        Assert.assertEquals("This is test Note", notesList[0].text)
+        var notesList:List<NotesItemEntity> = arrayListOf()
+        notesDao.getNoteEntity().collect{
+            notesList = it
+            Assert.assertEquals(1, notesList.size)
+            Assert.assertEquals("This is test Note", notesList[0].text)
+        }
     }
 
     @Test
     fun notesTest_WrongContent() = runBlocking {
-        val noteItem = NotesItemEntity(1, "This is test Note", Calendar.getInstance().time, "GOOD")
+        val noteItem = NotesItemEntity(1, "This is test Note", Calendar.getInstance().time, 3)
         notesDao.insertNoteEntity(noteItem)
 
-        val notesList = notesDao.getNoteEntity()
-        Assert.assertEquals(1, notesList.size)
-        Assert.assertNotEquals("This is note a test Note", notesList[0].text)
+        var notesList:List<NotesItemEntity> = arrayListOf()
+        notesDao.getNoteEntity().collect{
+            notesList = it
+            Assert.assertEquals(1, notesList.size)
+            Assert.assertNotEquals("This is note a test Note", notesList[0].text)
+        }
     }
 }

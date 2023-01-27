@@ -22,8 +22,11 @@ import java.time.Month
 import java.util.*
 import javax.inject.Inject
 
-class DateItemsAdapter constructor(private val context: Context, private val dateItemsList: List<DateGroup>) :
+class DateItemsAdapter @Inject constructor(@ActivityContext private val context: Context) :
     RecyclerView.Adapter<DateItemsAdapter.DateItemViewHolder>() {
+    @Inject
+    lateinit var notesItemAdapter: NotesItemAdapter
+    private var dateListItems: List<DateGroup> = arrayListOf()
     class DateItemViewHolder(itemView: View, val binding: DatesItemBinding) : RecyclerView.ViewHolder(itemView) {
 
     }
@@ -34,13 +37,19 @@ class DateItemsAdapter constructor(private val context: Context, private val dat
     }
 
     override fun onBindViewHolder(holder: DateItemViewHolder, position: Int) {
-        val dateItemEntity = dateItemsList[position]
+        val dateItemEntity = dateListItems[position]
         holder.binding.tvDateAndDay.text = "${dateItemEntity.dayOfWeek}, ${dateItemEntity.dayOfMonth}"
         holder.binding.tvTotalEntries.text = "${dateItemEntity.items.size} Entries"
-        holder.binding.recNotes.adapter = NotesItemAdapter(context, dateItemEntity.items)
+        notesItemAdapter.setNotesItems(dateItemEntity.items)
+        holder.binding.recNotes.adapter = notesItemAdapter
+    }
+
+    fun setDateItems(dateItemsList: List<DateGroup>){
+        this.dateListItems = dateItemsList
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
-        return dateItemsList.size
+        return dateListItems.size
     }
 }

@@ -10,7 +10,7 @@ class AppHelperTest{
     @Test
     fun getFromattedDate_Test_Correct() {
         val calendar = Calendar.getInstance()
-        calendar[Calendar.HOUR] = 10
+        calendar[Calendar.HOUR] = 22
         calendar[Calendar.MINUTE] = 50
         val formattedDate: String? = AppHelper.getFormattedDate(calendar.time)
         Assert.assertEquals("10:50", formattedDate)
@@ -22,6 +22,6 @@ class AppHelperTest{
         calendar[Calendar.HOUR] = 10
         calendar[Calendar.MINUTE] = 50
         val formattedDate: String? = AppHelper.getFormattedDate(calendar.time)
-        Assert.assertNotEquals("22:50", formattedDate)
+        Assert.assertNotEquals("22:52", formattedDate)
     }
 }

@@ -42,7 +42,9 @@ class MainActivity : AppCompatActivity() {
                                 false
                             )
                             adapter = notesListAdapter
+
                         }
+
                     }
                 }
             }

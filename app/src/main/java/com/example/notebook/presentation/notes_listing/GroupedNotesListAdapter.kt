@@ -19,6 +19,8 @@ import javax.inject.Inject
 class GroupedNotesListAdapter @Inject constructor(@ActivityContext private val context: Context) :
     RecyclerView.Adapter<GroupedNotesListAdapter.NotesViewHolder>() {
     private var notesList: List<MonthGroup> = arrayListOf()
+    @Inject
+    lateinit var dateItemsAdapter: DateItemsAdapter
     var totalNotes = 0;
     class NotesViewHolder(itemView: View, val binding: GroupedNotesItemsBinding) : RecyclerView.ViewHolder(itemView) {
 
@@ -39,7 +41,7 @@ class GroupedNotesListAdapter @Inject constructor(@ActivityContext private val c
         holder.binding.tvMonthName.text = notesItemEntity.month
         holder.binding.layMonthHeading.setBackgroundColor(getAvgMoodColor(notesItemEntity.avgMood))
         holder.binding.tvTotalEntries.text = "${notesItemEntity.totalEntries} Entries"
-        val dateItemsAdapter = DateItemsAdapter(context,notesItemEntity.dateGroups)
+        dateItemsAdapter.setDateItems(notesItemEntity.dateGroups)
         holder.binding.recDates.adapter = dateItemsAdapter
     }
 

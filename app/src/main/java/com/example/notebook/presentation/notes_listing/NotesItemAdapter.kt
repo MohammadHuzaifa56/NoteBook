@@ -11,15 +11,18 @@ import com.example.notebook.R
 import com.example.notebook.databinding.GroupedNotesItemsBinding
 import com.example.notebook.databinding.NotesItemBinding
 import com.example.notebook.domain.enum.MoodStates
+import com.example.notebook.domain.model.DateGroup
 import com.example.notebook.domain.model.MonthGroup
 import com.example.notebook.domain.model.NotesItemEntity
 import com.example.notebook.presentation.notes_detail.NotesDetailActivity
 import com.example.notebook.utils.AppHelper
+import dagger.hilt.android.qualifiers.ActivityContext
 import java.util.*
 import javax.inject.Inject
 
-class NotesItemAdapter constructor(private val context: Context, private val notesItemList: List<NotesItemEntity>) :
+class NotesItemAdapter @Inject constructor(@ActivityContext private val context: Context) :
     RecyclerView.Adapter<NotesItemAdapter.NotesItemViewHolder>() {
+    private var notesItemList: List<NotesItemEntity> = arrayListOf()
     class NotesItemViewHolder(itemView: View, val binding: NotesItemBinding) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesItemViewHolder {
@@ -53,6 +56,11 @@ class NotesItemAdapter constructor(private val context: Context, private val not
             intent.putExtra("noteId", notesItemEntity.id)
             context.startActivity(intent)
         }
+    }
+
+    fun setNotesItems(notesItemList: List<NotesItemEntity>){
+        this.notesItemList = notesItemList
+        notifyDataSetChanged()
     }
 
 
